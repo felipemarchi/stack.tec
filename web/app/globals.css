@@ -1,0 +1,163 @@
+@import 'tailwindcss';
+
+/*
+  Dark mode por CLASSE (.dark), controlado pelo ThemeContext — não por prefers-color-scheme.
+  A v1 é light-locked (nenhum toggle exposto); a mecânica fica pronta pra ligar dark depois
+  sem retrabalho. Ver context/ThemeContext.tsx.
+*/
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Design system da stack.tec (Tailwind v4 @theme). Herdado do _base (mecânica), retematizado:
+  base neutra silver/gray fria + off-black + UM acento (brand = vermilion #fd4311).
+  Color Consistency Lock: `brand` é o único acento da página inteira. Não introduzir 2º acento.
+*/
+@theme {
+  --font-*: initial;
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    var(--font-jetbrains), ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
+
+  --breakpoint-*: initial;
+  --breakpoint-2xsm: 375px;
+  --breakpoint-xsm: 425px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 2000px;
+
+  /* Escala de display pro hero e títulos de seção. */
+  --text-title-2xl: 72px;
+  --text-title-2xl--line-height: 78px;
+  --text-title-2xl--letter-spacing: -0.03em;
+  --text-title-xl: 60px;
+  --text-title-xl--line-height: 66px;
+  --text-title-xl--letter-spacing: -0.03em;
+  --text-title-lg: 48px;
+  --text-title-lg--line-height: 54px;
+  --text-title-lg--letter-spacing: -0.02em;
+  --text-title-md: 36px;
+  --text-title-md--line-height: 42px;
+  --text-title-md--letter-spacing: -0.02em;
+  --text-title-sm: 30px;
+  --text-title-sm--line-height: 38px;
+  --text-title-sm--letter-spacing: -0.01em;
+
+  --color-current: currentColor;
+  --color-transparent: transparent;
+  --color-white: #ffffff;
+  --color-black: #0e0f13;
+
+  /* Neutros — silver frio (superfícies, texto, hairlines). */
+  --color-gray-25: #fbfbfc;
+  --color-gray-50: #f6f7f9;
+  --color-gray-100: #eceef2;
+  --color-gray-200: #e0e3e9;
+  --color-gray-300: #ccd1d9;
+  --color-gray-400: #a3aab6;
+  --color-gray-500: #7a828f;
+  --color-gray-600: #565e6b;
+  --color-gray-700: #3d434e;
+  --color-gray-800: #262a31;
+  --color-gray-900: #17191e;
+  --color-gray-950: #0e0f13;
+
+  /* Acento único — vermilion. brand-500 = #fd4311. */
+  --color-brand-25: #fff6f3;
+  --color-brand-50: #ffece5;
+  --color-brand-100: #ffd6c9;
+  --color-brand-200: #ffb49f;
+  --color-brand-300: #ff8a68;
+  --color-brand-400: #ff6234;
+  --color-brand-500: #fd4311;
+  --color-brand-600: #e63709;
+  --color-brand-700: #bf2c09;
+  --color-brand-800: #99260f;
+  --color-brand-900: #7c2210;
+  --color-brand-950: #430f06;
+
+  /* Sombras neutras (tingidas no near-black, não preto puro). */
+  --shadow-theme-xs: 0px 1px 2px 0px rgba(14, 15, 19, 0.05);
+  --shadow-theme-sm:
+    0px 1px 3px 0px rgba(14, 15, 19, 0.08), 0px 1px 2px 0px rgba(14, 15, 19, 0.05);
+  --shadow-theme-md:
+    0px 4px 8px -2px rgba(14, 15, 19, 0.08),
+    0px 2px 4px -2px rgba(14, 15, 19, 0.05);
+  --shadow-theme-lg:
+    0px 12px 20px -6px rgba(14, 15, 19, 0.1),
+    0px 4px 8px -4px rgba(14, 15, 19, 0.05);
+  --shadow-theme-xl:
+    0px 24px 40px -12px rgba(14, 15, 19, 0.14),
+    0px 8px 16px -8px rgba(14, 15, 19, 0.06);
+  --shadow-focus-ring: 0px 0px 0px 4px rgba(253, 67, 17, 0.16);
+
+  --z-index-1: 1;
+  --z-index-9: 9;
+  --z-index-99: 99;
+  --z-index-999: 999;
+}
+
+/*
+  O Tailwind v4 nem sempre emite --font-sans/--font-mono pro :root quando só são usados via
+  @apply (não como classe no JSX). Fixamos explícitos aqui pra `font-mono` (e `font-sans`)
+  resolverem de verdade — apontando pras vars que o next/font injeta no <body>.
+*/
+:root {
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    var(--font-jetbrains), ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
+}
+
+/*
+  A cor de borda padrão virou `currentColor` no Tailwind v4; este reset mantém o look v3
+  (hairline silver) e define os defaults do body (light-first).
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply relative z-1 bg-white font-normal text-gray-900 antialiased;
+    /* Direto (não via `font-sans`): garante que o Outfit do next/font cascateie pra tudo.
+       O token @theme --font-sans não é emitido só com @apply no base layer no Tailwind v4. */
+    font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  }
+  /* Alvo de âncora (nav interna) não fica escondido atrás do header sticky. */
+  :target {
+    scroll-margin-top: 6rem;
+  }
+}
+
+/* Respeita quem pede menos movimento — desliga transições/animações globais. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

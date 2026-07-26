@@ -1,0 +1,34 @@
+# dependências
+node_modules/
+.pnp
+.pnp.*
+
+# next.js / build
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# testes
+coverage/
+
+# segredos e ambiente (§6 CLAUDE.md — nunca commitar)
+.env
+.env.*
+!.env.example
+
+# deploy
+.vercel
+
+# SO / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.pem
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
