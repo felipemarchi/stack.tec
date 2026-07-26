@@ -28,7 +28,10 @@ const segments: Segment[] = [
 
 export function Segments() {
   return (
-    <section id="segmentos" className="border-y border-gray-200 bg-gray-50 py-20 lg:py-28">
+    <section
+      id="segmentos"
+      className="overflow-hidden border-y border-gray-200 bg-gray-50 py-20 lg:py-28"
+    >
       <Container>
         <div className="max-w-2xl">
           <h2 className="text-title-sm font-semibold tracking-tight text-gray-950 sm:text-title-md">
@@ -41,21 +44,24 @@ export function Segments() {
         </div>
       </Container>
 
+      {/* Carrossel infinito (CSS marquee). Lista duplicada -> translada -50% sem emenda. */}
       <Reveal className="mt-12">
-        {/* scroll-snap horizontal: leitura por deslize, distinta da galeria e dos painéis */}
-        <div className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 sm:px-6 lg:px-8">
-          <div className="mx-auto flex gap-4">
-            {segments.map(({ label, icon: Icon }) => (
-              <div
-                key={label}
-                className="flex w-40 shrink-0 snap-start flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 shadow-theme-xs"
-              >
-                <Icon size={28} weight="duotone" className="text-brand-500" />
-                <span className="mt-8 text-base font-medium text-gray-900">
-                  {label}
-                </span>
-              </div>
-            ))}
+        <div className="group flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
+          <div className="flex w-max animate-marquee items-stretch will-change-transform group-hover:[animation-play-state:paused]">
+            {[...segments, ...segments].map((segment, i) => {
+              const Icon = segment.icon
+              return (
+                <div
+                  key={i}
+                  className="mr-4 flex h-36 w-40 shrink-0 flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 shadow-theme-xs"
+                >
+                  <Icon size={28} weight="duotone" className="text-brand-500" />
+                  <span className="text-base font-medium text-gray-900">
+                    {segment.label}
+                  </span>
+                </div>
+              )
+            })}
           </div>
         </div>
       </Reveal>

@@ -2,7 +2,7 @@ import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 
 import { Reveal } from '@/components/motion/reveal'
 import { SolutionCover } from '@/components/site/solution-cover'
-import { Container } from '@/components/ui'
+import { ButtonLink, Container } from '@/components/ui'
 import { solutions } from '@/content/site'
 import { cn } from '@/lib/cn'
 
@@ -110,6 +110,16 @@ export function SolutionsGallery() {
               </Reveal>
             )
           })}
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <ButtonLink
+            href="#contato"
+            variant="secondary"
+            className="w-full sm:w-auto sm:min-w-[320px]"
+          >
+            Não encontrou o que procura?
+          </ButtonLink>
         </div>
       </Container>
     </section>

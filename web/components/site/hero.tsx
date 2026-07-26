@@ -1,15 +1,11 @@
 'use client'
 
+import { ArrowDown } from '@phosphor-icons/react'
 import { motion, useReducedMotion } from 'motion/react'
 
 import { SolutionCover } from '@/components/site/solution-cover'
 import { ButtonLink, Container } from '@/components/ui'
-import {
-  ctaLabels,
-  leadMessages,
-  solutions,
-  whatsappUrl,
-} from '@/content/site'
+import { solutions } from '@/content/site'
 
 const ease = [0.16, 1, 0.3, 1] as const
 
@@ -27,8 +23,6 @@ const stackLayout = [
 
 export function Hero() {
   const reduce = useReducedMotion()
-  const empresaHref = whatsappUrl(leadMessages.empresa.body)
-  const devHref = whatsappUrl(leadMessages.dev.body)
   const stackCards = solutions.slice(0, 3)
 
   return (
@@ -61,30 +55,19 @@ export function Hero() {
               simplificar a sua operação. Você pede, a gente entrega.
             </motion.p>
 
-            <motion.div
-              variants={item}
-              className="mt-9 flex flex-col gap-3 sm:flex-row"
-            >
+            <motion.div variants={item} className="mt-9">
               <ButtonLink
-                href={empresaHref}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#solucoes"
+                className="w-full sm:w-auto sm:min-w-[260px]"
               >
-                {ctaLabels.empresa}
-              </ButtonLink>
-              <ButtonLink
-                href={devHref}
-                variant="secondary"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {ctaLabels.dev}
+                Encontre uma solução
+                <ArrowDown size={18} weight="bold" />
               </ButtonLink>
             </motion.div>
           </motion.div>
 
-          {/* Visual: uma "pilha" de capas de solução (amarra no que a galeria mostra). */}
-          <div className="relative mx-auto aspect-square w-full max-w-[400px] lg:mx-0 lg:ml-auto">
+          {/* Visual: "pilha" de capas. Só no desktop (escondido em tablet/mobile). */}
+          <div className="relative mx-auto hidden aspect-square w-full max-w-[400px] lg:mx-0 lg:ml-auto lg:block">
             {stackCards.map((solution, i) => {
               const cfg = stackLayout[i]
               return (
@@ -109,7 +92,7 @@ export function Hero() {
                   <div className="relative h-full w-full">
                     <SolutionCover
                       solution={solution}
-                      sizes="(max-width: 1024px) 80vw, 400px"
+                      sizes="(max-width: 1024px) 0px, 400px"
                       priority={i === stackLayout.length - 1}
                     />
                   </div>
